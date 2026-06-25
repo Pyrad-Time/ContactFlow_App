@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: contactflow_db
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: contactflow 
+    volumes:
+      - contactflow_pg_data:/var/lib/postgresql/contactflow_pg_data
+
+volumes:
+  contactflow_pg_data:
