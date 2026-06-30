@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
-    CHECK (source IN(
+    CHECK (source IN (
         'linkedin',
         'whatsapp',
         'instagram',
@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS contacts (
         'website',
         'other'
     )),
+
     CHECK (status IN (
         'new',
         'in_contact',
@@ -27,4 +28,11 @@ CREATE TABLE IF NOT EXISTS contacts (
         'partner',
         'archived'
     ))
+);
+
+CREATE TABLE IF NOT EXISTS contact_interactions (
+    id SERIAL PRIMARY KEY,
+    contact_id INTEGER NOT NULL REFERENCES contacts(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
