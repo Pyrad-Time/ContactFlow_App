@@ -51,3 +51,11 @@ CREATE TRIGGER update_contacts_updated_at
 BEFORE UPDATE ON contacts
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
+
+CREATE INDEX IF NOT EXISTS idx_contacts_status ON contacts(status);
+
+CREATE INDEX IF NOT EXISTS idx_contacts_source ON contacts(source);
+
+CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contacts(created_at);
+
+CREATE INDEX IF NOT EXISTS idx_contact_interactions_contact_id ON contact_interactions(contact_id);
