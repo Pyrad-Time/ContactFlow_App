@@ -1,0 +1,23 @@
+{
+    "name": "contactflow-back-end",
+    "version": "1.0.0",
+    "description": "ContactFlow back-end API",
+    "type": "module",
+    "main": "server.js",
+    "scripts": {
+        "dev": "nodemon server.js",
+        "start": "node server.js"
+    },
+    "keywords": [],
+    "author": "Pyrad-Time",
+    "license": "MIT",
+    "dependencies": {
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "pg": "^8.22.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.14"
+    }
+}
