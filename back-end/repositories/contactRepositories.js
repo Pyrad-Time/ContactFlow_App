@@ -1,5 +1,25 @@
 import { query } from "../database/connection.js"
 
+export async function findAllContacts() {
+    const result = await query(`
+        SELECT
+            id,
+            name,
+            email,
+            phone,
+            company, 
+            role,
+            source,
+            status,
+            notes,
+            created_at,
+            updated_at
+        FROM contacts
+        ORDER BY created_at DESC
+        `)
+    return result.rows
+}
+
 export async function createContact(contactData) {
     const {
         name, 
