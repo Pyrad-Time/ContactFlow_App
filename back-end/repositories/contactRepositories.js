@@ -20,6 +20,26 @@ export async function findAllContacts() {
     return result.rows
 }
 
+export async function findContactById(id){
+    const result = await query(`
+        SELECT
+            id,
+            name,
+            email,
+            phone,
+            company, 
+            role,
+            source,
+            status,
+            notes,
+            created_at,
+            updated_at
+        FROM contacts 
+        WHERE id = $1
+        `, [id])
+    return result.rows[0]
+}
+
 export async function createContact(contactData) {
     const {
         name, 
