@@ -1,4 +1,4 @@
-import { createContact, findAllContacts, findContactById} from "../repositories/contactRepositories.js";
+import { createContact, deleteContact, findAllContacts, findContactById, updateContact} from "../repositories/contactRepositories.js";
 
 export async function findAllContactsController(req, res) {
     try {
@@ -59,3 +59,42 @@ export async function createContactController(req, res){
         return res.status(500).json({ message: "Internal server error" })
     }
 }
+
+
+export async function updateContactController(req, res) {
+    try {
+        const { id } = req.params
+        const {
+            name, 
+            email, 
+            phone, 
+            company, 
+            role, 
+            source, 
+            status, 
+            notes 
+        } = req.body
+
+        const contactData = {
+            name,
+            email, 
+            phone, 
+            company, 
+            role, 
+            source, 
+            status, 
+            notes}
+
+        const updatedContact = await updateContact(id, contactData) 
+
+        if(!updatedContact) {
+            return res.status(404).json({ message: "Contact not found" })
+        }
+
+        return res.status(200).json(updatedContact)
+    } catch(error) {
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+
