@@ -121,3 +121,12 @@ export async function updateContact(id, contactData) {
         return result.rows[0]
 }
 
+export async function deleteContact(id) {
+    const result = await query(`
+        DELETE FROM contacts
+        WHERE id = $1
+        RETURNING *
+        `, [id])
+
+    return result.rows[0]
+}
