@@ -1,8 +1,16 @@
-import { createContact, deleteContact, findAllContacts, findContactById, updateContact, deleteContact} from "../repositories/contactRepositories.js";
+import { createContact, deleteContact, findAllContacts, findContactById, updateContact } from "../repositories/contactRepositories.js";
 
 export async function findAllContactsController(req, res) {
     try {
-        const allContacts = await findAllContacts()
+        const { search, status, source} = req.query
+
+        const filter = {
+            search,
+            status,
+            source
+        }
+
+        const allContacts = await findAllContacts(filter)
 
         return res.status(200).json(allContacts)
     } catch(error) {

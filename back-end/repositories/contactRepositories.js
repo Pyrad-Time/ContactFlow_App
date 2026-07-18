@@ -1,8 +1,13 @@
 import { query } from "../database/connection.js"
 
-export async function findAllContacts() {
-    const result = await query(`
-        SELECT
+export async function findAllContacts(filters = {}) {
+    const { search, status, source } = filters
+    
+    const conditions = []
+    const values = []
+
+    let sql = `
+            SELECT
             id,
             name,
             email,
@@ -14,9 +19,37 @@ export async function findAllContacts() {
             notes,
             created_at,
             updated_at
-        FROM contacts
+            FROM contacts
+    `
+
+    if(status) {
+        values.push(status)
+        conditions.push(`status = $${values.length}`)
+    }
+
+    if(source) {
+        values.push(source)
+        conditions.push(`source = $${values.length}`)
+    }
+
+    if(search) {
+        values.push(`%${search}%`)
+        conditions.push(`(
+                name ILIKE $${values.length}
+                OR email ILIKE $${values.length}
+                OR company ILIKE $${values.length}
+            )`)        
+    }
+
+    if(conditions.length > 0) {
+        sql += `\nWHERE ${conditions.join(" AND ")}`
+    }
+
+    const result = await query(`
+        ${sql}
         ORDER BY created_at DESC
-        `)
+        `, values)
+
     return result.rows
 }
 
