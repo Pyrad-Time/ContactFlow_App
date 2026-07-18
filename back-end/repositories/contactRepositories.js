@@ -80,3 +80,44 @@ export async function createContact(contactData) {
 
     return result.rows[0]
 }
+
+export async function updateContact(id, contactData) {
+    const {
+        name,
+        email,
+        phone,
+        company,
+        role,
+        source,
+        status,
+        notes
+    } = contactData
+
+    const result = await query(`
+        UPDATE contacts
+        SET
+            name = COALESCE($1, name),
+            email = COALESCE($2, email),
+            phone = COALESCE($3, phone),
+            company = COALESCE($4, company),
+            role = COALESCE($5, role),
+            source = COALESCE($6, source),
+            status = COALESCE($7, status),
+            notes = COALESCE($8, notes)
+        WHERE id = $9
+        RETURNING *
+        `, [
+            name,
+            email,
+            phone,
+            company,
+            role,
+            source,
+            status,
+            notes,
+            id
+        ])
+
+        return result.rows[0]
+}
+
