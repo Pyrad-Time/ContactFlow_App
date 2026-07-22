@@ -1,4 +1,4 @@
-import { createInteraction, deleteInteraction } from "../repositories/interactionRepositories.js";
+import { createInteraction, deleteInteraction, getInteractionByContactId } from "../repositories/interactionRepositories.js";
 
 export async function createInteractionController(req, res) {
     try {
@@ -17,13 +17,30 @@ export async function createInteractionController(req, res) {
     }
 }
 
+export async function findInteractionByContactIdController(req, res) {
+    try {
+        const { id } = req.params
+
+        const interactions = await getInteractionByContactId(id)
+
+        if(!interactions) {
+            return res.status(200).json([])
+        }
+
+        return res.status(200).json({interactions})
+
+    } catch(error) {
+        return res.status(500).json({ message: "Internal server error"})
+    }
+}
+
 export async function deleteInteractionController(req, res) {
     try {
         const { id, interactionId } = req.params
 
         const deletedInteraction = await deleteInteraction(id, interactionId)
 
-        if(!deleteInteraction) {
+        if(!deletedInteraction) {
             res.status(400).json({ message: "Interaction not found"})
         }
 
