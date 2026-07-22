@@ -1,6 +1,7 @@
 import express from "express";
 import { query } from "./database/connection.js"
 import contactRoutes from "./routes/contactRoutes.js"
+import dashboardRoutes from "./routes/dashboardRoutes.js"
 
 const app = express()
 
@@ -33,6 +34,7 @@ app.get("/db-health", async (req, res) => {
 })
 
 app.use("/api/contacts", contactRoutes)
+app.use("/api/dashboard", dashboardRoutes)
 
 
 app.listen(PORT, () => {
