@@ -14,7 +14,7 @@ export async function createInteraction(contactId, content) {
 }
 
 
-export async function getInteractionById(contactId) {
+export async function getInteractionByContactId(contactId) {
     const result = await query(`
         SELECT 
             id,
@@ -26,6 +26,16 @@ export async function getInteractionById(contactId) {
         ORDER BY created_at DESC
         `, [contactId])
 
-    return result.rows[0]
+    return result.rows
 }
 
+export async function  deleteInteraction(contactId, interactionId){
+    const result = await query (`
+        DELETE FROM contact_interactions
+        WHERE id = $1
+        AND contact_id = $2
+        RETURNING *
+        `, [interactionId, contactId])
+
+    return result.rows[0]
+}
