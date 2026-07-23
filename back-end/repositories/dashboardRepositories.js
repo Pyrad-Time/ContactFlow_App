@@ -44,3 +44,14 @@ export async function getContactsBySource() {
 
     return contactsBySource
 }
+
+export async function getTotalContactsByInteractions() {
+    const result = await query(`
+        SELECT COUNT(*) AS total
+        FROM contact_interactions
+        `)
+    
+    const totalInteractions = Number(result.rows[0].total)
+
+    return totalInteractions
+}
