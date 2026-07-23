@@ -10,3 +10,20 @@ export async function getTotalContacts(){
 
     return totalContacts
 }
+
+export async function getContactsByStatus() {
+    const result = await query(`
+        SELECT status, COUNT(*) AS total
+        FROM contacts
+        GROUP BY status
+        ORDER BY status
+        `)
+    const totalStatus = result.rows.map((row) => {
+        return {
+            status: row.status,
+            total: Number(row.total)
+        }
+    })
+
+    return totalStatus
+}
