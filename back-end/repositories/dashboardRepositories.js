@@ -27,3 +27,20 @@ export async function getContactsByStatus() {
 
     return totalStatus
 }
+
+export async function getContactsBySource() {
+    const result = await query(`
+        SELECT source, COUNT(*) AS total
+        FROM contacts
+        GROUP BY source
+        ORDER BY source
+        `)
+    const contactsBySource = result.rows.map((row) => {
+        return {
+            source: row.source,
+            total: Number(row.total)
+        }
+    })
+
+    return contactsBySource
+}
