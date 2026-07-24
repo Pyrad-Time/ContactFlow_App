@@ -71,4 +71,22 @@ export async function getLatestContacts() {
         `)
 
     return result.rows
-    }
+}
+
+export async function getLatestInteractions() {
+    const result = await query(`
+        SELECT 
+            contact_interactions.id,
+            contact_interactions.contact_id,
+            contacts.name AS contact_name,
+            contact_interactions.content,
+            contact_interactions.created_at
+        FROM contact_interactions
+        JOIN contacts
+        ON contact_interactions.contact_id = contacts.id
+        ORDER BY contact_interactions.created_at DESC
+        LIMIT 5
+        `)
+
+    return result.rows
+}
