@@ -55,3 +55,20 @@ export async function getTotalContactsByInteractions() {
 
     return totalInteractions
 }
+
+export async function getLatestContacts() {
+    const result = await query(`
+        SELECT 
+            id, 
+            name, 
+            company,
+            status,
+            source,
+            created_at
+        FROM contacts
+        ORDER BY created_at DESC
+        LIMIT 5
+        `)
+
+    return result.rows
+    }
