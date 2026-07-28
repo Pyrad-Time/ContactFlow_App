@@ -1,0 +1,65 @@
+const URL_API = "http://localhost:3000/api"
+
+export async function getContacts() {
+    const response = await fetch(`${URL_API}/contacts`)
+
+    if(!response.ok) {
+        throw new Error("Contacts not found")
+    }
+
+    return response.json()
+}
+
+export async function getContactById(id) {
+    const response = await fetch(`${URL_API}/contacts/${id}`)
+
+    if(!response.ok){
+        throw new Error("Contact not found")
+    }
+
+    return response.json()
+}
+
+export async function createContact(contactData) {
+    const response = await fetch(`${URL_API}/contacts`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(contactData)
+    })
+
+    if(!response.ok) {
+        throw new Error("Contact not created")
+    }
+
+    return response.json()
+}
+
+export async function updateContact(id, contactData) {
+    const response = await fetch(`${URL_API}/contacts/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(contactData)
+    })
+
+    if(!response.ok){
+        throw new Error("Contact not updated")
+    }
+
+    return response.json()
+}
+
+export async function deleteContact(id) {
+    const response = await fetch(`${URL_API}/contacts/${id}`, {
+        method: "DELETE"
+    })
+
+    if(!response.ok){
+        throw new Error("Contact not deleted")
+    }
+
+    return response.json()
+}
