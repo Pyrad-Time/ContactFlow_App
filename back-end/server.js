@@ -2,11 +2,13 @@ import express from "express";
 import { query } from "./database/connection.js"
 import contactRoutes from "./routes/contactRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
+import cors from "cors"
 
 const app = express()
 
 const PORT = process.env.PORT || 3000
 
+app.use(cors())
 app.use(express.json())
 
 app.get("/health", (req, res) => {
