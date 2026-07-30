@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react"
 import { getDashboardData } from "../../services/dashboardService"
+import { MetricCard } from "../../components/dashboard/MetricCard"
+import { StatusSummary } from "../../components/dashboard/StatusSummary"
+import { ContactsBySource } from "../../components/dashboard/ContactsBySource"
+import { LatestContacts } from "../../components/dashboard/LatestedContacts"
+import { LatestInteractions } from "../../components/dashboard/LatestedInteractions"
 
 export function Dashboard() {
     const [dashboardData, setDashboardData] = useState(null)
@@ -46,6 +51,13 @@ export function Dashboard() {
             <pre>
                 {JSON.stringify(dashboardData, null, 2)}
             </pre>
+
+            <MetricCard title="Total de contatos" value={dashboardData.totalContacts}/>
+            <MetricCard title="Total de interações" value={dashboardData.totalInteractions}/>
+            <StatusSummary title="Todos Status" value={dashboardData.contactByStatus}/>
+            <ContactsBySource title="Contatos por origem" value={dashboardData.contactBySource}/>
+            <LatestContacts title="Últimos contatos" value={dashboardData.latestedContacts}/>
+            <LatestInteractions title="Últimas interações" value={dashboardData.latestedInteractions}/>
         </main>
     )
 }
