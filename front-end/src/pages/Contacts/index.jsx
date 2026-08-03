@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getContacts } from "../../services/contactService"
 import { ContactCard } from "../../components/Contacts/ContactCard"
+import { Link } from "react-router-dom"
 
 
 export function Contacts() {
@@ -26,35 +27,40 @@ export function Contacts() {
 
         if(isLoading) {
             return (
-                <article>
+                <main>
                     <h1>Carregando contatos</h1>
-                </article>
+                </main>
             )
         }
 
         if(err) {
             return (
-                <article>
+                <main>
                     <h1>Erro ao carregar dados.</h1>
                     <p>Erro: {err}</p>
-                </article>
+                </main>
             )
         }
-
 
     return (
         <main>
             <h1>ContactFlow contacts page</h1>
-            <pre>{JSON.stringify(contacts, null, 2)}</pre>
+            
+                <Link to={`/contacts/new`}>
+                    Novo contato
+                </Link>
 
-            {contacts.map((contact) => {
-                return (
-                    <ContactCard 
-                        contact={contact} 
-                        key={contact.id}
-                    />
-                )
-            })}
+
+            {contacts.length === 0 ?
+                <p>Nenhum contato encontrado</p> :
+                contacts.map((contact) => {
+                    return (
+                        <ContactCard 
+                            contact={contact} 
+                            key={contact.id}
+                        />
+                    )
+                })}
         </main>
     )
 }
