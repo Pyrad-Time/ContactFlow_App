@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getContacts } from "../../services/contactService"
 import { ContactCard } from "../../components/Contacts/ContactCard"
+import { ContactFilters } from "../../components/Contacts/ContactFilters"
 import { Link } from "react-router-dom"
 
 
@@ -8,11 +9,19 @@ export function Contacts() {
     const [contacts, setContacts] = useState([])
     const [ isLoading, setIsLoading] = useState(true)
     const [ err, setErr] = useState(null)
+    const [ filters, setFilters ] = useState({
+        search: "",
+        status: "",
+        source: ""
+    })
 
     useEffect(() => {
         async function fetchContactsData() {
             try {
-            const data = await getContacts()
+            setIsLoading(true)
+            setErr(null)
+
+            const data = await getContacts(filters)
 
             setContacts(data)
         } catch(error) {
@@ -23,24 +32,39 @@ export function Contacts() {
         }
 
         fetchContactsData()
-    }, [])
+    }, [filters])
 
-        if(isLoading) {
+        function renderContactsContent() {
+            if(isLoading) {
             return (
-                <main>
-                    <h1>Carregando contatos</h1>
-                </main>
+                    <p>Carregando contatos</p>
             )
+            }
+
+            if(err) {
+                return (
+                    <section>
+                        <h1>Erro ao carregar dados.</h1>
+                        <p>Erro: {err}</p>
+                    </section>
+                )
+            }
+
+            if(contacts.length === 0) {
+                return <p>Nenhum contato encontrado</p>
+            }
+
+            return contacts.map((contact) => {
+                return (
+                    <ContactCard 
+                        contact={contact} 
+                        key={contact.id}
+                    />
+                )
+            })
         }
 
-        if(err) {
-            return (
-                <main>
-                    <h1>Erro ao carregar dados.</h1>
-                    <p>Erro: {err}</p>
-                </main>
-            )
-        }
+        
 
     return (
         <main>
@@ -50,17 +74,12 @@ export function Contacts() {
                     Novo contato
                 </Link>
 
+                <ContactFilters 
+                    filters={filters}
+                    setFilters={setFilters}
+                />
 
-            {contacts.length === 0 ?
-                <p>Nenhum contato encontrado</p> :
-                contacts.map((contact) => {
-                    return (
-                        <ContactCard 
-                            contact={contact} 
-                            key={contact.id}
-                        />
-                    )
-                })}
+            {renderContactsContent()}
         </main>
     )
 }

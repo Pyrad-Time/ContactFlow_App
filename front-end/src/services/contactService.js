@@ -1,6 +1,6 @@
 const URL_API = "http://localhost:3000/api"
 
-export async function getContacts({filters}) {
+export async function getContacts(filters = {}) {
     const searchParams = new URLSearchParams()
 
     if(filters.search) {
@@ -18,7 +18,7 @@ export async function getContacts({filters}) {
     const queryString = searchParams.toString()
 
     const response = await fetch(`
-        ${URL_API}/contacts${queryString ? `${queryString}` : ""}
+        ${URL_API}/contacts${queryString ? `?${queryString}` : ""}
         `)
     
     if(!response.ok) {
