@@ -3,6 +3,8 @@ import { query } from "./database/connection.js"
 import contactRoutes from "./routes/contactRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
 import cors from "cors"
+import swaggerUi from "swagger-ui-express"
+import openApiDocument from "./docs/openapi.js"
 
 const app = express()
 
@@ -10,6 +12,8 @@ const PORT = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument))
 
 app.get("/health", (req, res) => {
     return res.status(200).json({
