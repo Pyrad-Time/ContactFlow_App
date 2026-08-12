@@ -88,9 +88,7 @@ const openApiDocument = {
                         content: {
                             "application/json": {
                                 schema: {
-                                    items: {
-                                        $ref: "#/components/schemas/ErrorResponse"
-                                    }
+                                    $ref: "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
@@ -137,7 +135,7 @@ const openApiDocument = {
                         description: "Internal server error",
                         content: {
                             "application/json": {
-                                schemas: {
+                                schema: {
                                     $ref: "#/components/schemas/ErrorResponse"
                                 }
                             }
@@ -289,6 +287,7 @@ const openApiDocument = {
                     },
                     email: {
                         type: "string",
+                        nullable: true,
                         example: "marcos@email.com"
                     },
                     phone: {
