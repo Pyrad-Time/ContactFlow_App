@@ -98,6 +98,59 @@ const openApiDocument = {
                     }
                 }
             }
+        },
+
+        "/api/contacts/{id}": {
+            get: {
+                summary: "Select specific contact",
+                description: "Return a specific contact using unique Id",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Contact returned successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+
+                    404: {
+                        description: "Contact not found",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     components: {
