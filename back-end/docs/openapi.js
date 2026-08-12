@@ -29,9 +29,156 @@ const openApiDocument = {
             description: "Servidor local"
         }
     ],
-    paths: {},
+    paths: {
+        "/api/contacts": {
+            get: {
+                summary: "Listar contatos",
+                description: "Retorna a lista de contatos cadastrados, com suporte a busca e filtros por status e origem.",
+                parameters: [
+                    {
+                        name: "search",
+                        in: "query",
+                        required: false,
+                        description: "Searches constacts by name, email, or company.",
+                        schema: {
+                            type: "string",
+                            example: "marcos"
+                        }
+                    },
+                    {
+                        name: "status",
+                        in: "query",
+                        required: false,
+                        description: "Filters contacts by status",
+                        schema: {
+                            type: "string",
+                            enum: ["new", "in_contact", "client", "partner", "archived"],
+                            example: "client"
+                        }
+                    },
+                    {
+                        name: "source",
+                        in: "query",
+                        required: false,
+                        description: "Filter contacts by source",
+                        schema: {
+                            type: "string",
+                            enum: ["linkedin", "whatsapp", "instagram", "referral", "event", "website", "other"],
+                            example: "linkedin"
+                        }
+                    }
+
+                ],
+                responses: {
+                    200: {
+                        description: "Lista de contatos retornada com sucesso",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "array",
+                                    items: {
+                                        $ref: "#/components/schemas/Contact"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Erro interno do servidor",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "array",
+                                    items: {
+                                        $ref: "#/components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     components: {
-        schemas: {}
+        schemas: {
+            ContactStatus: {
+                type: "string",
+                enum: ["new", "in_contact", "client", "partner", "archived"],
+                example: "client"
+            },
+
+            ContactSource: {
+                type: "string",
+                enum: ["linkedin", "whatsapp", "instagram", "referral", "event", "website", "other"],
+                example: "linkedin"
+            },
+
+            Contact: {
+                type: "object",
+                properties: {
+                    id: {
+                        type: "integer",
+                        example: 1
+                    },
+                    name: {
+                        type: "string",
+                        example: "Marcos Vinicius"
+                    },
+                    email: {
+                        type: "string",
+                        nullable: true,
+                        example: "marcos@email.com"
+                    },
+                    phone: {
+                        type: "string",
+                        nullable: true,
+                        example: "11999999999"
+                    },
+                    company: {
+                        type: "string",
+                        nullable: true,
+                        example: "ContactFlow"
+                    },
+                    role: {
+                        type: "string",
+                        nullable: true,
+                        example: "Developer"
+                    },
+                    source: {
+                        $ref: "#/components/schemas/ContactSource"
+                    },
+                    status: {
+                        $ref: "#/components/schemas/ContactStatus"
+                    },
+                    notes: {
+                        type: "string",
+                        nullable: true,
+                        example: "Potential client from LinkedIn."
+                    },
+                    created_at: {
+                        type: "string",
+                        format: "date-time",
+                        example: "2026-07-18T21:39:14.065Z"
+                    },
+                    updated_at: {
+                        type: "string",
+                        format: "date-time",
+                        example: "2026-07-18T21:39:14.065Z"
+                    }
+                }
+            },
+
+            ErrorResponse: {
+                type: "object",
+                properties: {
+                    message: {
+                        type: "string",
+                        example: "Internal server error"
+                    }
+                }
+            }
+        }
     }
 }
 
