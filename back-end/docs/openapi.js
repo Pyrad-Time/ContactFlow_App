@@ -39,7 +39,7 @@ const openApiDocument = {
                         name: "search",
                         in: "query",
                         required: false,
-                        description: "Searches constacts by name, email, or company.",
+                        description: "Searches contacts by name, email, or company.",
                         schema: {
                             type: "string",
                             example: "marcos"
@@ -88,10 +88,57 @@ const openApiDocument = {
                         content: {
                             "application/json": {
                                 schema: {
-                                    type: "array",
                                     items: {
                                         $ref: "#/components/schemas/ErrorResponse"
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+
+            post: {
+                summary: "Create contact",
+                description: "Creates a new contact.",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                $ref: "#/components/schemas/CreateContactRequest"
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    201: {
+                        description: "Contact created successfully",
+                        content: {
+                            "application/json": {
+                                schema: { 
+                                    $ref: "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    400: {
+                        description: "Invalid request data",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schemas: {
+                                    $ref: "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
@@ -229,6 +276,48 @@ const openApiDocument = {
                         type: "string",
                         example: "Internal server error"
                     }
+                }
+            },
+
+            CreateContactRequest: {
+                type: "object",
+                required: ["name"],
+                properties: {
+                    name: {
+                        type: "string",
+                        example: "Marcos Vinicius"
+                    },
+                    email: {
+                        type: "string",
+                        example: "marcos@email.com"
+                    },
+                    phone: {
+                        type: "string",
+                        nullable: true,
+                        example: "11999999999"
+                    },
+                    company: {
+                        type: "string",
+                        nullable: true,
+                        example: "ContactFlow"
+                    },
+                    role: {
+                        type: "string",
+                        nullable: true,
+                        example: "Developer"
+                    },
+                    source: {
+                        $ref: "#/components/schemas/ContactSource"
+                    },
+                    status: {
+                        $ref: "#/components/schemas/ContactStatus"
+                    },
+                    notes: {
+                        type: "string",
+                        nullable: true,
+                        example: "Potential client from LinkedIn."
+                    }
+
                 }
             }
         }
