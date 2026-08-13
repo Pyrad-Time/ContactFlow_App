@@ -195,6 +195,74 @@ const openApiDocument = {
                         }
                     }
                 }
+            },
+            patch: {
+                summary: "Update contact",
+                description: "Updates an existing contact by ID.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
+                        }
+                    }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                $ref: "#/components/schemas/UpdateContactRequest"
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    200: {
+                        description: "Contact updated successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    400: {
+                        description: "Invalid request data",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    404: {
+                        description: "Contact not found",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -317,6 +385,47 @@ const openApiDocument = {
                         example: "Potential client from LinkedIn."
                     }
 
+                }
+            },
+
+            UpdateContactRequest: {
+                type: "object",
+                properties: {
+                    name: {
+                        type: "string",
+                        example: "Marcos Vinicius Updated"
+                    },
+                    email: {
+                        type: "string",
+                        nullable: true,
+                        example: "updated@email.com"
+                    },
+                    phone: {
+                        type: "string",
+                        nullable: true,
+                        example: "11988888888",
+                    },
+                    company: {
+                        type: "string",
+                        nullable: true,
+                        example: "Updated Company"
+                    },
+                    role: {
+                        type: "string",
+                        nullable: true,
+                        example: "Full Stack Developer"
+                    },
+                    source: {
+                        $ref: "#/components/schemas/ContactSource"
+                    },
+                    status: {
+                        $ref: "#/components/schemas/ContactStatus"
+                    },
+                    notes: {
+                        type: "string",
+                        nullable: true,
+                        example: "Updated notes."
+                    }
                 }
             }
         }
