@@ -265,7 +265,7 @@ const openApiDocument = {
                 }
             },
             delete: {
-                sumamry: "Delete contact",
+                summary: "Delete contact",
                 description: "Deletes an existing contact by ID.",
                 parameters: [
                     {
@@ -413,8 +413,69 @@ const openApiDocument = {
                         }
                     }
                 }
-            }
+            },
+            "/api/contacts/{id}/interactions/{interactionId}": {
+                delete: {
+                    summary: "Delete Interaction",
+                    description: "Deletes a specific interaction from a contact",
+                    parameters: [
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            description: "Contact ID.",
+                            schema: {
+                                type: "integer",
+                                example: 8
+                            }
+                        },
+                        {
+                            name: "interactionId",
+                            in: "path",
+                            required: true,
+                            description: "Interaction ID.",
+                            schema: {
+                                type: "integer",
+                                example: 21
+                            }
+                        }
+                    ],
+                    responses: {
+                        200: {
+                            description: "Interaction deleted successfully",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#/components/schemas/DeleteResponse"
+                                    }
+                                }
+                            }
+                        },
+                        404: {
+                            description: "Interaction not found",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#/components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        },
+                        500: {
+                            description: "Internal server error",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
         },
+        
     components: {
         schemas: {
             ContactStatus: {
@@ -473,12 +534,12 @@ const openApiDocument = {
                     },
                     created_at: {
                         type: "string",
-                        format: "date-time",
+                        format: "data-time",
                         example: "2026-07-18T21:39:14.065Z"
                     },
                     updated_at: {
                         type: "string",
-                        format: "date-time",
+                        format: "data-time",
                         example: "2026-07-18T21:39:14.065Z"
                     }
                 }
