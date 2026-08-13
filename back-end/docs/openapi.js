@@ -415,50 +415,78 @@ const openApiDocument = {
                 }
             },
             
-        },
-        "/api/contacts/{id}/interactions/{interactionId}": {
-                delete: {
-                    summary: "Delete Interaction",
-                    description: "Deletes a specific interaction from a contact",
-                    parameters: [
-                        {
-                            name: "id",
-                            in: "path",
-                            required: true,
-                            description: "Contact ID.",
-                            schema: {
-                                type: "integer",
-                                example: 8
+            "/api/contacts/{id}/interactions/{interactionId}": {
+                    delete: {
+                        summary: "Delete Interaction",
+                        description: "Deletes a specific interaction from a contact",
+                        parameters: [
+                            {
+                                name: "id",
+                                in: "path",
+                                required: true,
+                                description: "Contact ID.",
+                                schema: {
+                                    type: "integer",
+                                    example: 8
+                                }
+                            },
+                            {
+                                name: "interactionId",
+                                in: "path",
+                                required: true,
+                                description: "Interaction ID.",
+                                schema: {
+                                    type: "integer",
+                                    example: 21
+                                }
                             }
-                        },
-                        {
-                            name: "interactionId",
-                            in: "path",
-                            required: true,
-                            description: "Interaction ID.",
-                            schema: {
-                                type: "integer",
-                                example: 21
-                            }
-                        }
-                    ],
-                    responses: {
-                        200: {
-                            description: "Interaction deleted successfully",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/DeleteResponse"
+                        ],
+                        responses: {
+                            200: {
+                                description: "Interaction deleted successfully",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            $ref: "#/components/schemas/DeleteResponse"
+                                        }
+                                    }
+                                }
+                            },
+                            404: {
+                                description: "Interaction not found",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            $ref: "#/components/schemas/ErrorResponse"
+                                        }
+                                    }
+                                }
+                            },
+                            500: {
+                                description: "Internal server error",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            $ref: "#/components/schemas/ErrorResponse"
+                                        }
                                     }
                                 }
                             }
-                        },
-                        404: {
-                            description: "Interaction not found",
+                        }
+                    }
+                },
+    
+            "/api/dashboard": {
+                get: {
+                    summary: "Get dashboard data",
+                    description: "Return dashboard metrics includind total contacts, contacts by status, contacts by source, total interactions, latest contacts and latest interactions.",
+                    responses: {
+                        200: {
+                            description: "Dashboard data returned succesfully",
                             content: {
                                 "application/json": {
                                     schema: {
-                                        $ref: "#/components/schemas/ErrorResponse"
+                                        $ref: "#/components/schemas/DashboardResponse"
                                     }
                                 }
                             }
@@ -468,7 +496,7 @@ const openApiDocument = {
                             content: {
                                 "application/json": {
                                     schema: {
-                                        $ref: "#components/schemas/ErrorResponse"
+                                        $ref: "#/components/schemas/ErrorResponse"
                                     }
                                 }
                             }
@@ -476,34 +504,6 @@ const openApiDocument = {
                     }
                 }
             },
-
-        "/api/dashboard": {
-            get: {
-                summary: "Get dashboard data",
-                description: "Return dashboard metrics includind total contacts, contacts by status, contacts by source, total interactions, latest contacts and latest interactions.",
-                responses: {
-                    200: {
-                        description: "Dashboard data returned succesfully",
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    $ref: "#/components/schemas/DashboardResponse"
-                                }
-                            }
-                        }
-                    },
-                    500: {
-                        description: "Internal server error",
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    $ref: "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         },
         
     components: {
