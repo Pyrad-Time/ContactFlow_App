@@ -312,8 +312,109 @@ const openApiDocument = {
                     }
                 }
             }
-        }
-    },
+        },
+        "/api/contacts/{id}/interactions": {
+            get: {
+                summary: "List contact interactions",
+                description: "Returns all interactions registered for a specific contact.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Contact interactions returned successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "array",
+                                    items: {
+                                        $ref: "#/components/schemas/ContactInteraction"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+                post: {
+                    summary: "Create contact interaction",
+                    description: "Creates a new interaction for a specific contact.",
+                    parameters: [
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            description: "Contact ID.",
+                            schema: {
+                                type: "integer",
+                                example: 8
+                            }
+                        }
+                    ],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/CreateInteractionRequest"
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        201: {
+                            description: "Contact interaction created successfully",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#/components/schemas/ContactInteraction"
+                                    }
+                                }
+                            }
+                        },
+                        400: {
+                            description: "Invalid request data",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#/components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        },
+                        500: {
+                            description: "Internal server error",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        $ref: "#/components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
     components: {
         schemas: {
             ContactStatus: {
@@ -483,6 +584,40 @@ const openApiDocument = {
                     message: {
                         type: "string",
                         example: "Contact deleted succesfully"
+                    }
+                }
+            },
+
+            ContactInteraction: {
+                type: "object",
+                properties: {
+                    id: {
+                        type: "integer",
+                        example: 1
+                    },
+                    contact_id: {
+                        type: "integer",
+                        example: 8
+                    },
+                    content: {
+                        type: "string",
+                        example: "Followed up with the contact through WhatsApp."
+                    },
+                    created_at: {
+                        type: "string",
+                        format: "data-time",
+                        example: "2026-07-18T21:39:14.065Z"
+                    }
+                }
+            },
+
+            CreateInteractionRequest: {
+                type: "object",
+                required: ["content"],
+                properties: {
+                    content: {
+                        type: "string",
+                        example: "Followed up with the contact through WhatsApp."
                     }
                 }
             }
