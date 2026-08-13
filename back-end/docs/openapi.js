@@ -414,7 +414,9 @@ const openApiDocument = {
                     }
                 }
             },
-            "/api/contacts/{id}/interactions/{interactionId}": {
+            
+        },
+        "/api/contacts/{id}/interactions/{interactionId}": {
                 delete: {
                     summary: "Delete Interaction",
                     description: "Deletes a specific interaction from a contact",
@@ -474,6 +476,34 @@ const openApiDocument = {
                     }
                 }
             },
+
+        "/api/dashboard": {
+            get: {
+                summary: "Get dashboard data",
+                description: "Return dashboard metrics includind total contacts, contacts by status, contacts by source, total interactions, latest contacts and latest interactions.",
+                responses: {
+                    200: {
+                        description: "Dashboard data returned succesfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/DashboardResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         
     components: {
@@ -534,12 +564,12 @@ const openApiDocument = {
                     },
                     created_at: {
                         type: "string",
-                        format: "data-time",
+                        format: "date-time",
                         example: "2026-07-18T21:39:14.065Z"
                     },
                     updated_at: {
                         type: "string",
-                        format: "data-time",
+                        format: "date-time",
                         example: "2026-07-18T21:39:14.065Z"
                     }
                 }
@@ -666,7 +696,7 @@ const openApiDocument = {
                     },
                     created_at: {
                         type: "string",
-                        format: "data-time",
+                        format: "date-time",
                         example: "2026-07-18T21:39:14.065Z"
                     }
                 }
@@ -680,6 +710,98 @@ const openApiDocument = {
                         type: "string",
                         example: "Followed up with the contact through WhatsApp."
                     }
+                }
+            },
+
+            DashboardStatusItem: {
+                type: "object",
+                properties: { 
+                    status: {
+                        $ref: "#/components/schemas/ContactStatus"
+                    },
+                    total: {
+                        type: "integer",
+                        example: 3
+                    }
+                }
+            },
+
+            DashboardSourceItem: {
+                type: "object",
+                properties: {
+                    source: {
+                        $ref: "#/components/schemas/ContactSource"
+                    },
+                    total: {
+                        type: "integer",
+                        example: 2
+                    }
+                },
+            },
+
+            LatestInteraction: {
+                type: "object",
+                properties: {
+                    id: {
+                        type: "integer",
+                        example: 1
+                    },
+                    contact_id: {
+                        type: "integer",
+                        example: 8
+                    },
+                    contact_name: {
+                        type: "string",
+                        example: "Marcos Vinicius"
+                    },
+                    content: {
+                        type: "string",
+                        example: "Followed up with the contact through WhatsApp."
+                    },
+                    created_at: {
+                        type: "string",
+                        format: "date-time",
+                        example: "2026-07-18T21:39:14.065Z"
+                    }
+                }
+            },
+
+            DashboardResponse: {
+                type: "object",
+                properties: {
+                    totalContacts: {
+                        type: "integer",
+                        example: 10
+                    },
+                    contactByStatus: {
+                        type: "array",
+                        items: {
+                            $ref: "#/components/schemas/DashboardStatusItem"
+                        }
+                    },
+                    contactBySource: {
+                        type: "array",
+                        items: {
+                            $ref: "#/components/schemas/DashboardSourceItem"
+                        }
+                    },
+                    totalInteractions: {
+                        type: "integer",
+                        example: 25
+                    },
+                    latestedContacts: {
+                        type: "array",
+                        items: {
+                            $ref: "#/components/schemas/Contact"
+                        }
+                    },
+                    latestedInteractions: {
+                        type: "array",
+                        items: {
+                            $ref: "#/components/schemas/LatestInteraction"
+                        }
+                    }
+                    
                 }
             }
         }
