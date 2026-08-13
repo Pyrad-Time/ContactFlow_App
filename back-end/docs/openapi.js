@@ -263,6 +263,54 @@ const openApiDocument = {
                         }
                     }
                 }
+            },
+            delete: {
+                sumamry: "Delete contact",
+                description: "Deletes an existing contact by ID.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Contact deleted successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/DeleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    404: {
+                        description: "Contact not found",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -425,6 +473,16 @@ const openApiDocument = {
                         type: "string",
                         nullable: true,
                         example: "Updated notes."
+                    }
+                }
+            },
+
+            DeleteResponse: {
+                type: "object",
+                properties: {
+                    message: {
+                        type: "string",
+                        example: "Contact deleted succesfully"
                     }
                 }
             }
