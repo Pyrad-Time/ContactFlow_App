@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getContactById } from "../../services/contactService"
+import { getInteractionsByContactId } from "../../services/interactionService"
 
 export function ContactDetails() {
     const { id } = useParams()
 
     const [ contact, setContact ] = useState(null)
+    const [ interactions, setInteractions ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
     const [ errorMessage, setErrorMessage ] = useState("")
 
@@ -16,8 +18,11 @@ export function ContactDetails() {
                 setErrorMessage("")
 
                 const contactById = await getContactById(id)
-                setContact(contactById)
+                const interactionsData = await getInteractionsByContactId(id)
 
+                setContact(contactById)
+                setInteractions(interactionsData.interactions || [])
+                
             } catch (err){
                 console.error(err)
                 setErrorMessage("Could not load contact details.")
@@ -48,6 +53,22 @@ export function ContactDetails() {
             <h2>Name: {contact.name}</h2>
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
+
+            <h2>Interactions</h2>
+            {interactions.length === 0 ? (
+                <p>Not exist interactions</p>
+            ) : (
+                <ul>
+                    {interactions.map((interaction) => {
+                        return (
+                             <li key={interaction.id}>
+                                <p>{interaction.content}</p>
+                                <small>{interaction.created_at}</small>
+                            </li>
+                        )
+                    })}
+                </ul>
+            )}
         </main>
     )
 }
