@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ContactForm() {
+export function ContactForm({ onSubmit }) {
     const [ formData, setFormData ] = useState({
         name: "",
         email: "",
@@ -20,11 +20,16 @@ export function ContactForm() {
             [name]:value
         }))
 
-        console.log(formData)
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+
+        onSubmit(formData)
     }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <h2>Contact Form</h2>
 
             <div>
@@ -36,6 +41,7 @@ export function ContactForm() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    required
                 />
             </div>
 
@@ -43,7 +49,7 @@ export function ContactForm() {
                 <label htmlFor="email">Email</label>
 
                 <input 
-                    type="text" 
+                    type="email" 
                     id="email"
                     name="email"
                     value={formData.email}
@@ -106,6 +112,37 @@ export function ContactForm() {
                 <option value="other">Other</option>
                 </select>
             </div>
+
+            <div>
+                <label htmlFor="status">Status</label>
+
+                <select 
+                    name="status" 
+                    id="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                >
+                    <option value="new">New</option>
+                    <option value="in_contact">In contact</option>
+                    <option value="client">Client</option>
+                    <option value="partner">Partner</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </div>
+
+            <div>
+                <label htmlFor="notes">Notes</label>
+
+                <textarea 
+                    name="notes" 
+                    id="notes"
+                    value={formData.notes}
+                    onChange={handleChange}
+                />
+                
+            </div>
+
+            <button type="submit">Save contact</button>
         </form>
     )
 }
