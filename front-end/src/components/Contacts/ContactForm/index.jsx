@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ContactForm({ onSubmit }) {
+export function ContactForm({ onSubmit, isSubmitting = false }) {
     const [ formData, setFormData ] = useState({
         name: "",
         email: "",
@@ -142,7 +142,9 @@ export function ContactForm({ onSubmit }) {
                 
             </div>
 
-            <button type="submit">Save contact</button>
+            <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Saving" : "Save Contact"}
+            </button>
         </form>
     )
 }
