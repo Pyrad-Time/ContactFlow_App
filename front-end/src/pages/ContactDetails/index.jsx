@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getContactById } from "../../services/contactService"
-import { getInteractionsByContactId } from "../../services/interactionService"
+import { createInteraction, getInteractionsByContactId } from "../../services/interactionService"
 
 export function ContactDetails() {
     const { id } = useParams()
@@ -10,6 +10,33 @@ export function ContactDetails() {
     const [ interactions, setInteractions ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
     const [ errorMessage, setErrorMessage ] = useState("")
+    const [ newInteraction, setNewInteraction ] = useState("")
+    const [ interactionError, setInteractionError ] = useState("")
+
+    function handleChange(event) {
+        setNewInteraction(event.target.value)
+    }
+    
+    
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        if(newInteraction.trim().length === 0) {
+            setInteractionError("Interaction content is required")
+            return
+        }
+
+        setInteractionError("")
+
+        await createInteraction(id, {
+                content: newInteraction
+        })
+
+        const interactionsData = await getInteractionsByContactId(id)
+        setInteractions(interactionsData.interactions || [])
+        setNewInteraction("")
+    }
 
     useEffect(() => {
         async function loadContact() {
@@ -56,7 +83,7 @@ export function ContactDetails() {
 
             <h2>Interactions</h2>
             {interactions.length === 0 ? (
-                <p>Not exist interactions</p>
+                <p>No interactions found.</p>
             ) : (
                 <ul>
                     {interactions.map((interaction) => {
@@ -69,6 +96,23 @@ export function ContactDetails() {
                     })}
                 </ul>
             )}
+
+            
+            <form onSubmit={handleSubmit}>
+                <h2>New Interaction</h2>
+
+                <div>
+                    {interactionError && <p>{interactionError}</p>}
+                    <textarea  
+                        name="newInteraction" 
+                        id="newInteraction"
+                        value={newInteraction}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <button type="submit">Add Interaction</button>
+            </form>
         </main>
     )
 }
