@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getContactById } from "../../services/contactService"
-import { createInteraction, getInteractionsByContactId } from "../../services/interactionService"
+import { createInteraction, deleteInteraction, getInteractionsByContactId } from "../../services/interactionService"
 
 export function ContactDetails() {
     const { id } = useParams()
@@ -36,6 +36,14 @@ export function ContactDetails() {
         const interactionsData = await getInteractionsByContactId(id)
         setInteractions(interactionsData.interactions || [])
         setNewInteraction("")
+    }
+
+    async function handleDeleteInteraction(interactionId) {
+        await deleteInteraction(id, interactionId)
+        
+        setInteractions((currentInteraction) => {
+           return currentInteraction.filter((interaction) => interaction.id !== interactionId)
+        })
     }
 
     useEffect(() => {
@@ -91,6 +99,11 @@ export function ContactDetails() {
                              <li key={interaction.id}>
                                 <p>{interaction.content}</p>
                                 <small>{interaction.created_at}</small>
+
+                                <button
+                                    onClick={() => handleDeleteInteraction(interaction.id)}
+                                    >
+                                    Delete</button>
                             </li>
                         )
                     })}
