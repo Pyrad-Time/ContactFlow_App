@@ -1,15 +1,20 @@
 import { useState } from "react";
 
-export function ContactForm({ onSubmit, isSubmitting = false }) {
+export function ContactForm({ 
+        onSubmit, 
+        isSubmitting = false, 
+        initialValues = {},
+        submitLabel = "Save contact"
+    }) {
     const [ formData, setFormData ] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        role: "",
-        source: "other",
-        status: "new",
-        notes: ""
+        name: initialValues.name || "",
+        email: initialValues.email || "",
+        phone: initialValues.phone || "",
+        company: initialValues.company || "",
+        role: initialValues.role || "",
+        source: initialValues.source || "other",
+        status: initialValues.status || "new",
+        notes: initialValues.notes || ""
     })
 
     function handleChange(event) {
@@ -25,7 +30,17 @@ export function ContactForm({ onSubmit, isSubmitting = false }) {
     function handleSubmit(event) {
         event.preventDefault()
 
-        onSubmit(formData)
+        const cleanedData = {
+        ...formData,
+        name: formData.name.trim(),
+        email: formData.email.trim() || null,
+        phone: formData.phone.trim() || null,
+        company: formData.company.trim() || null,
+        role: formData.role.trim() || null,
+        notes: formData.notes.trim() || null,
+    }
+
+        onSubmit(cleanedData)
     }
 
     return (
@@ -143,7 +158,7 @@ export function ContactForm({ onSubmit, isSubmitting = false }) {
             </div>
 
             <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving" : "Save Contact"}
+                {isSubmitting ? "Saving" : submitLabel}
             </button>
         </form>
     )
