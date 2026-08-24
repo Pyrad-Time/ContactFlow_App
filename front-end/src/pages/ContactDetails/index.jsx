@@ -88,6 +88,7 @@ export function ContactDetails() {
             <h2>Name: {contact.name}</h2>
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
+            <p>Notes: {contact.notes}</p>
 
             <h2>Interactions</h2>
             {interactions.length === 0 ? (
