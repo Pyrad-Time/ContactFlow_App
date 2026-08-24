@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { getContactById } from "../../services/contactService"
+import { useParams, useNavigate } from "react-router-dom"
+import { getContactById, deleteContact } from "../../services/contactService"
 import { createInteraction, deleteInteraction, getInteractionsByContactId } from "../../services/interactionService"
 
 export function ContactDetails() {
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const [ contact, setContact ] = useState(null)
     const [ interactions, setInteractions ] = useState([])
@@ -80,6 +81,24 @@ export function ContactDetails() {
     if(!contact) {
         return <p>Contact not found.</p>
     }
+
+    async function handleDeleteContact() {
+        const wantsToDelete = window.confirm("Are you sure you want to delete this contact?")
+
+        if(!wantsToDelete) {
+            return
+        }
+
+        try {
+            await deleteContact(id)
+
+            navigate("/contacts")
+        } catch(error) {
+            console.error(error)
+            setErrorMessage("Could not delete contact.")
+        }
+         
+    }
     return ( 
         <main>
             <h1>Contact Details</h1>
@@ -88,8 +107,11 @@ export function ContactDetails() {
             <h2>Name: {contact.name}</h2>
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
-            <p>Notes: {contact.notes}</p>
+            <p>Notes: {contact.notes || "No notes."}</p>
 
+            <button type="button" onClick={handleDeleteContact}>
+                Delete contact
+            </button>
             <h2>Interactions</h2>
             {interactions.length === 0 ? (
                 <p>No interactions found.</p>
@@ -102,9 +124,11 @@ export function ContactDetails() {
                                 <small>{interaction.created_at}</small>
 
                                 <button
+                                    type="button"
                                     onClick={() => handleDeleteInteraction(interaction.id)}
-                                    >
-                                    Delete</button>
+                                >
+                                    Delete
+                                </button>
                             </li>
                         )
                     })}
