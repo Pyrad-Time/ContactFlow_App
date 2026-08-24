@@ -9,13 +9,14 @@ export function EditContact() {
     const [ contact, setContact ] = useState(null)
     const [ isLoading, setIsLoading ] = useState(true)
     const [ errorMessage, setErrorMessage ] = useState("")
+    const [ isSubmitting, setIsSubmitting ] = useState(false)
 
     const navigate = useNavigate()
 
     useEffect(() => {
         async function loadContact() {
         try {
-            setIsLoading(false)
+            setIsLoading(true)
             setErrorMessage("")
 
             const contactData = await getContactById(id)
@@ -43,9 +44,19 @@ export function EditContact() {
     }
 
     async function handleUpdateContact(contactData) {
-        await updateContact(id, contactData)
+        try {
+            setIsSubmitting(true)
+            setErrorMessage("")
 
-        navigate(`/contacts/${id}`)
+            await updateContact(id, contactData)
+
+            navigate(`/contacts/${id}`)
+        } catch(error) {
+            console.error(error)
+            setErrorMessage("Could not update contact.")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (
@@ -54,7 +65,12 @@ export function EditContact() {
             <p>Edit contact information</p>
 
             <h2>{contact.name}</h2>
-            <ContactForm initialValues={contact} onSubmit={handleUpdateContact} submitLabel="Update contact"/>
+            <ContactForm 
+                initialValues={contact} 
+                onSubmit={handleUpdateContact} 
+                submitLabel="Update contact"
+                isSubmitting={isSubmitting}
+            />
         </main>
     )
 }
