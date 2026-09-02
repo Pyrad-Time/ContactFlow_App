@@ -14,14 +14,16 @@ export function Dashboard() {
     useEffect(() => {
         async function fetchDashboardData() {
             try {
-            const data = await getDashboardData()
+                setIsLoading(true)
+                setErr(null)
+                const data = await getDashboardData()
 
-            setDashboardData(data)
-        } catch(error){
-            setErr(error.message)
-        } finally {
-            setIsLoading(false)
-        }
+                setDashboardData(data)
+            } catch(error){
+                setErr(error.message)
+            } finally {
+                setIsLoading(false)
+            }
         }
 
         fetchDashboardData()
@@ -29,35 +31,75 @@ export function Dashboard() {
 
         if(isLoading) {
             return (
-                <main>
-                    <h1>Dashboard</h1>
-                    <p>Carregando...</p>
+                <main className="page">
+                    <section className="pageHeader">
+                        <h1>Dashboard</h1>
+                        <p>Loading you CRM overview...</p>
+                    </section>
+                    
+                    <p className="stateMessage">Loading...</p>
                 </main>
             )
         }
 
         if(err) {
             return (
-                <main>
-                    <h1>Dashboard</h1>
-                    <p>Erro: {err}</p>
+                <main className="page">
+                    <section className="pageHeader">
+                        <h1>Dashboard</h1>
+                        <p>Something went wrong while loading your data.</p>
+                    </section>
+
+                    <section className="errorState">
+                        <h2>Error for loading dashboard metrics.</h2>
+                        <p>Erro: {err}</p>
+                    </section>
                 </main>
             )
         }
 
     return (
-        <main>
-            <h1>Dashboard</h1>
-            <pre>
-                {JSON.stringify(dashboardData, null, 2)}
-            </pre>
+        <main className="page">
+            <section className="pageHeader">
+                <h1>Dashboard</h1>
+                <p>Overview of your contacts, interactions, adn relationship pipeline</p>
+            </section>
+           
+           <section className="dashboardMetrics">
+                <MetricCard 
+                    title="Total contats" 
+                    value={dashboardData.totalContacts}
+                />
 
-            <MetricCard title="Total de contatos" value={dashboardData.totalContacts}/>
-            <MetricCard title="Total de interações" value={dashboardData.totalInteractions}/>
-            <StatusSummary title="Todos Status" value={dashboardData.contactByStatus}/>
-            <ContactsBySource title="Contatos por origem" value={dashboardData.contactBySource}/>
-            <LatestContacts title="Últimos contatos" value={dashboardData.latestedContacts}/>
-            <LatestInteractions title="Últimas interações" value={dashboardData.latestedInteractions}/>
+                <MetricCard 
+                    title="Total interactions" 
+                    value={dashboardData.totalInteractions}
+                />
+           </section>
+
+            <section className="dashboardGrid">
+                <StatusSummary 
+                    title="Contacts by status" 
+                    value={dashboardData.contactByStatus}
+                />
+
+                <ContactsBySource 
+                    title="Contacts by source" 
+                    value={dashboardData.contactBySource}
+                />
+            </section>
+
+            <section className="dashboardGrid">
+                <LatestContacts 
+                    title="Latest contacts" 
+                    value={dashboardData.latestedContacts}
+                />
+
+                <LatestInteractions 
+                    title="Latest interactions" 
+                    value={dashboardData.latestedInteractions}
+                />
+            </section>
         </main>
     )
 }
