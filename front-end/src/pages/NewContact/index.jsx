@@ -24,12 +24,21 @@ export function NewContact() {
 
     }
     return (
-        <main>
-            <h1>New Contact</h1>
-            <p>Create a new contact</p>
+        <main className="page">
+            <section className="pageHeader">
+                <h1>New Contact</h1>
+                <p>Create a new contact</p>
+            </section>
 
-            {errorMessage && <p>{errorMessage}</p>}
-            <ContactForm onSubmit={handleCreateContact} isSubmitting={isSubmitting}/>
+            <section className="card">
+                {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+
+                <ContactForm 
+                    onSubmit={handleCreateContact} 
+                    isSubmitting={isSubmitting}
+                />
+           </section>
         </main>
+
     )
 }
