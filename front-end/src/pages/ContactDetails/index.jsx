@@ -125,7 +125,7 @@ export function ContactDetails() {
                 </div>
 
                 <div className="contactDetailsInfo">
-                    <div className="contactDetailHeader">
+                    <div className="contactDetailsHeader">
                         <div>
                             <h2>{contact.name}</h2>
                             <p>{contact.role || "No role informed"} </p>
@@ -248,7 +248,7 @@ export function ContactDetails() {
                     </ul>
                 )}
             </section>
-            <section className="card">
+            <section className="card interactionSectionForm">
                 <form className="form interactionForm" onSubmit={handleSubmit}>
                     <h2>New Interaction</h2>
 
