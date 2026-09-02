@@ -100,13 +100,18 @@ export function ContactDetails() {
 
     const contactInitial = contact.name?.charAt(0).toUpperCase() || "?"
 
-    const createdAt = contact.created_at
-        ? new Date(contact.created_at).toLocaleString("pt-BR")
-        : "Not specified"
-
-    const updatedAt = contact.updatedAt
-        ? new Data(contact.updatedAt).toLocaleString("pt-BR")
-        : "Not specified"
+    
+    function formatDate(dateValue) {
+        if(!dateValue) {
+            return "Not Specified"
+        }
+        return new Date(dateValue).toLocaleString("pt-BR", {
+            dateStyle: "short",
+            timeStyle: "short"
+        })
+    }
+    const createdAt = formatDate(contact.created_at)
+    const updatedAt = formatDate(contact.updated_at)
     return ( 
         <main className="page">
             <section className="pageHeader">
@@ -126,22 +131,7 @@ export function ContactDetails() {
                             <p>{contact.role || "No role informed"} </p>
                         </div>
 
-                        <div className="contactDetailsActions">
-                            <Link
-                                className="button buttonSecondary buttonSmall"
-                                to={`/contacts/${contact.id}/edit`}
-                            >
-                                Edit
-                            </Link>
-
-                            <button
-                                className="button buttonDanger buttonSmall"
-                                type="button"
-                                onClick={handleDeleteContact}
-                            >
-                                Delete contact
-                            </button>
-                        </div>
+                        
                     </div>
                     <div className="contactDetailsMeta">
                         <span className="badge">
@@ -210,6 +200,22 @@ export function ContactDetails() {
                         <p>{contact.notes || "Not specified"}</p>
                     </div>
                 </div>
+                <div className="contactDetailsActions">
+                            <Link
+                                className="button buttonSecondary buttonSmall"
+                                to={`/contacts/${contact.id}/edit`}
+                            >
+                                Edit
+                            </Link>
+
+                            <button
+                                className="button buttonDanger buttonSmall"
+                                type="button"
+                                onClick={handleDeleteContact}
+                            >
+                                Delete contact
+                            </button>
+                        </div>
             </section>
             <section className="card interactionsSection">
                 <h2>Interactions</h2>
