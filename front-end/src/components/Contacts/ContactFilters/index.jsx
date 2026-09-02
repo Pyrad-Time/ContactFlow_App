@@ -7,15 +7,15 @@ export function ContactFilters({ filters, setFilters}) {
     }
 
     return (
-        <section>
-            <h2>Filtros</h2>
-
-            <div>
-                <label htmlFor="search">Buscar contato</label>
+        <form className="contactFilters">
+            <div className="formGroup">
+                <label htmlFor="search">Search contact</label>
                 <input 
+                    className="formControl"
                     type="text" 
                     id="search"
-                    placeholder="Buscar por nome..."
+                    name="search"
+                    placeholder="Search by name..."
                     value={filters.search}
                     onChange={(event) => {
                         handleFilterChange("search", event.target.value)
@@ -23,35 +23,37 @@ export function ContactFilters({ filters, setFilters}) {
                     />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="status">Status</label>
 
                 <select 
+                    className="formControl"
                     id="status"
                     value={filters.status}
                     onChange={(event) => {
                         handleFilterChange("status", event.target.value)
                     }}
                 >
-                    <option value=""></option>
-                    <option value="new">Novo</option>
-                    <option value="in_contact">Em contato</option>
-                    <option value="client">Cliente</option>
-                    <option value="partner">Parceiro</option>
-                    <option value="archived">Arquivado</option>
+                    <option value="">All</option>
+                    <option value="new">New</option>
+                    <option value="in_contact">In contact</option>
+                    <option value="client">Client</option>
+                    <option value="partner">Partner</option>
+                    <option value="archived">Archived</option>
                 </select>
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="source">Origem</label>
                 <select 
+                    className="formControl"
                     id="source"
                     value={filters.source}
                     onChange={(event) => {
                         handleFilterChange("source", event.target.value)
                     }}
                 >
-                    <option value="">Todas</option>
+                    <option value="">All</option>
                     <option value="linkedin">LinkedIn</option>
                     <option value="whatsapp">WhatsApp</option>
                     <option value="instagram">Instagram</option>
@@ -61,6 +63,6 @@ export function ContactFilters({ filters, setFilters}) {
                     <option value="other">Outro</option>
                 </select>
             </div>
-        </section>
+        </form>
     )
 }

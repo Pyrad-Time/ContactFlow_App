@@ -37,21 +37,21 @@ export function Contacts() {
         function renderContactsContent() {
             if(isLoading) {
             return (
-                    <p>Carregando contatos</p>
+                    <p className="stateMessage">Loading contacts...</p>
             )
             }
 
             if(err) {
                 return (
-                    <section>
-                        <h1>Erro ao carregar dados.</h1>
-                        <p>Erro: {err}</p>
+                    <section className="errorState">
+                        <h1>Loading error data...</h1>
+                        <p>Error: {err}</p>
                     </section>
                 )
             }
 
             if(contacts.length === 0) {
-                return <p>Nenhum contato encontrado</p>
+                return <p className="emptyState">Contact not found.</p>
             }
 
             return contacts.map((contact) => {
@@ -67,19 +67,27 @@ export function Contacts() {
         
 
     return (
-        <main>
-            <h1>ContactFlow contacts page</h1>
+        <main className="page">
+            <section className="pageHeader">
+                <h1>Contacts</h1>
+                <p>Manage your contacts and opportunities.</p>
+            </section>
             
-                <Link to={`/contacts/new`}>
-                    Novo contato
-                </Link>
+            <section className="card">
+                <div className="contactsToolbar">
+                    <ContactFilters 
+                        filters={filters}
+                        setFilters={setFilters}
+                    />
+                    <Link className="button buttonPrimary" to={`/contacts/new`}>
+                        New Contact
+                    </Link>
+                </div>
+            </section>
 
-                <ContactFilters 
-                    filters={filters}
-                    setFilters={setFilters}
-                />
-
-            {renderContactsContent()}
+            <section className="contactsList">
+                {renderContactsContent()}
+            </section>
         </main>
     )
 }
