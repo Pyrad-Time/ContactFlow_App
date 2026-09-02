@@ -44,13 +44,13 @@ export function ContactForm({
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
             <h2>Contact Form</h2>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="name">Name</label>
 
-                <input 
+                <input className="formControl" 
                     type="text" 
                     id="name"
                     name="name"
@@ -60,10 +60,10 @@ export function ContactForm({
                 />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="email">Email</label>
 
-                <input 
+                <input className="formControl" 
                     type="email" 
                     id="email"
                     name="email"
@@ -72,10 +72,10 @@ export function ContactForm({
                 />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="phone">Phone</label>
 
-                <input 
+                <input className="formControl"  
                     type="text"
                     id="phone"
                     name="phone"
@@ -84,10 +84,10 @@ export function ContactForm({
                 />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="company">Company</label>
                 
-                <input 
+                <input className="formControl" 
                     type="text" 
                     id="company"
                     name="company"
@@ -96,10 +96,10 @@ export function ContactForm({
                 />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="role">Role</label>
 
-                <input 
+                <input className="formControl" 
                     type="text" 
                     id="role"
                     name="role"
@@ -108,10 +108,11 @@ export function ContactForm({
                 />
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="source">Source</label>
 
                 <select
+                    className="formControl"
                     id="source"
                     name="source" 
                     value={formData.source}
@@ -128,10 +129,10 @@ export function ContactForm({
                 </select>
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="status">Status</label>
 
-                <select 
+                <select className="formControl" 
                     name="status" 
                     id="status"
                     value={formData.status}
@@ -145,10 +146,10 @@ export function ContactForm({
                 </select>
             </div>
 
-            <div>
+            <div className="formGroup">
                 <label htmlFor="notes">Notes</label>
 
-                <textarea 
+                <textarea className="formControl" 
                     name="notes" 
                     id="notes"
                     value={formData.notes}
@@ -157,8 +158,12 @@ export function ContactForm({
                 
             </div>
 
-            <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving" : submitLabel}
+            <button 
+                className="button buttonPrimary"
+                type="submit" 
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? "Saving..." : submitLabel}
             </button>
         </form>
     )

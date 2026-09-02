@@ -107,3 +107,65 @@ textarea {
         font-size: var(--font-size-2xl);
     }
 }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form h2 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-xl);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.formGroup label {
+    font-size: var(--font-size-md);
+}
+
+.formControl { 
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.formControl:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+textarea.formControl {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.button {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: .7;
+}
+
+.buttonPrimary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+}
