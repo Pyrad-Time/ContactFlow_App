@@ -611,3 +611,34 @@ textarea.formControl {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+}
+
+.dashboardCard {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-card);
+}
+
+.dashboardCard h2 {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+}
+
+.chartBox {
+    width: 100%;
+    height: 220px;
+}
+
+@media (min-width: 900px) {
+    .dashboardGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
