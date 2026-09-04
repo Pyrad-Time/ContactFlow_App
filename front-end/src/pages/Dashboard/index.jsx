@@ -58,6 +58,21 @@ export function Dashboard() {
             )
         }
 
+    function getStatusTotal(status) {
+        const statusItem = dashboardData.contactByStatus.find((item) => {
+            return item.status === status
+        })
+
+        return statusItem ? Number(statusItem.total) : 0
+    }
+
+    const totalContacts = Number(dashboardData.totalContacts)
+    const newContacts = getStatusTotal("new")
+    const inContactContacts = getStatusTotal("in_contact")
+    const clientContacts = getStatusTotal("client")
+    const partnerContacts = getStatusTotal("partner")
+    const archivedContacts = getStatusTotal("archived")
+
     return (
         <main className="page">
             <section className="pageHeader">
@@ -66,15 +81,12 @@ export function Dashboard() {
             </section>
            
            <section className="dashboardMetrics">
-                <MetricCard 
-                    title="Total contats" 
-                    value={dashboardData.totalContacts}
-                />
-
-                <MetricCard 
-                    title="Total interactions" 
-                    value={dashboardData.totalInteractions}
-                />
+                <MetricCard title="Total contacts" value={totalContacts}/>
+                <MetricCard title="New contacts" value={newContacts}/>
+                <MetricCard title="In contact" value={inContactContacts}/>
+                <MetricCard title="Clients" value={clientContacts}/>
+                <MetricCard title="Partners" value={partnerContacts}/>
+                <MetricCard title="Archived" value={archivedContacts}/>
            </section>
 
             <section className="dashboardGrid">

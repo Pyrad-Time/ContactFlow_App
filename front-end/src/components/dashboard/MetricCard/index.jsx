@@ -1,8 +1,12 @@
 export function MetricCard({title, value}) {
     return (
-        <article>
-            <h2>{title}</h2>
-            <strong>{value}</strong>
+        <article className="metricCard">
+            <span className="metricCardLabel">
+                {title}
+            </span>
+            <strong className="metricCardValue">
+                {value}
+            </strong>
         </article>
     )
 }
