@@ -660,6 +660,8 @@ textarea.formControl {
 
 .latestContactItem:hover {
     border-color: var(--color-primary);
+    transition: border-color .2s ease, transform .2s ease;
+    transform: translateY(-2px);
 }
 
 .latestAvatar {
@@ -707,4 +709,51 @@ textarea.formControl {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+}
+
+.latestInteractionItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #f9fafb;
+    color: inherit;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.latestInteractionItem:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.latestInteractionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+.latestInteractionHeader strong {
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+}
+
+.latestInteractionHeader small {
+    color: var(--color-muted);
+    font-size: var(--font-size-xs);
+}
+
+.latestInteractionItem p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .latestInteractionHeader {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
