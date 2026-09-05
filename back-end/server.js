@@ -10,9 +10,10 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-const allowedOrigins = [ 
+const allowedOrigins = [
     "http://localhost:5173",
-    process.env.FRONTEND_URL].filter(Boolean)
+    "https://contact-flow-app.vercel.app"
+]
 
 app.use(cors({
     origin: allowedOrigins
