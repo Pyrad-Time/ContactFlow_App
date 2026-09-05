@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { getContactById, deleteContact } from "../../services/contactService"
+import { formatSource, formatStatus } from "../../utils/formatters"
 import { createInteraction, deleteInteraction, getInteractionsByContactId } from "../../services/interactionService"
 
 export function ContactDetails() {
@@ -135,11 +136,11 @@ export function ContactDetails() {
                     </div>
                     <div className="contactDetailsMeta">
                         <span className="badge">
-                            Status: {contact.status}        
+                            Status: {formatStatus(contact.status)}        
                         </span>
                         
                         <span className="badge badgeSecondary">
-                            Source: {contact.source}
+                            Source: {formatSource(contact.source)}
                         </span>
                     </div>
 
@@ -231,7 +232,7 @@ export function ContactDetails() {
                                             {interaction.content}
                                         </p>
                                         <small className="interactionDate">
-                                            {interaction.created_at}
+                                            {formatDate(interaction.created_at)}
                                         </small>
                                     </div>
 
