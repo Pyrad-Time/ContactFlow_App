@@ -44,7 +44,7 @@ export function ContactFilters({ filters, setFilters}) {
             </div>
 
             <div className="formGroup">
-                <label htmlFor="source">Origem</label>
+                <label htmlFor="source">Origin</label>
                 <select 
                     className="formControl"
                     id="source"
@@ -57,10 +57,10 @@ export function ContactFilters({ filters, setFilters}) {
                     <option value="linkedin">LinkedIn</option>
                     <option value="whatsapp">WhatsApp</option>
                     <option value="instagram">Instagram</option>
-                    <option value="referral">Indicação</option>
-                    <option value="event">Evento</option>
+                    <option value="referral">Referral</option>
+                    <option value="event">Event</option>
                     <option value="website">Website</option>
-                    <option value="other">Outro</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
         </form>

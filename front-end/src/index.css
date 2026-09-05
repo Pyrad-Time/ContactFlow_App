@@ -166,6 +166,13 @@ textarea.formControl {
     color: white;
 }
 
+.buttonSecondary {
+    background: var(--color-primary);
+    opacity: .9;
+    border: var(--color-border);
+    color: white;
+}
+
 .buttonPrimary:hover:not(:disabled) {
     background: var(--color-primary-dark);
 }

@@ -77,7 +77,7 @@ export function Dashboard() {
         <main className="page">
             <section className="pageHeader">
                 <h1>Dashboard</h1>
-                <p>Overview of your contacts, interactions, adn relationship pipeline</p>
+                <p>Overview of your contacts, interactions, and relationship pipeline</p>
             </section>
            
            <section className="dashboardMetrics">

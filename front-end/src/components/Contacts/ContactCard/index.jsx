@@ -11,15 +11,15 @@ export function ContactCard({contact}) {
 
             <div className="contactCardInfo">
                 <h2 className="contactCardTitle">
-                    Nome: {contact.name}
+                    Name: {contact.name}
                 </h2>
 
                 <p className="contactCardText">
-                    Email: {contact.email || "Não informado"}
+                    E-mail: {contact.email || "Não informado"}
                 </p>
 
                 <p className="contactCardText">
-                    Empresa: {contact.company || "Não informado"}
+                    Company: {contact.company || "Não informado"}
                 </p>
 
                 <div className="contactCardMeta">
@@ -28,7 +28,7 @@ export function ContactCard({contact}) {
                     </span>
 
                     <span className="badge badgeSecondary">
-                        Origem: {contact.source}
+                        Source: {contact.source}
                     </span>
                 </div>
 
@@ -37,14 +37,14 @@ export function ContactCard({contact}) {
                         className="button buttonSecondary" 
                         to={`/contacts/${contact.id}`}
                         >
-                        Ver detalhes
+                        Details
                     </Link>
 
                     <Link 
                         className="button buttonPrimary"
                         to={`/contacts/${contact.id}/edit`}
                         >
-                        Editar
+                        Edit
                     </Link>
                 </div>
             </div>
