@@ -202,7 +202,7 @@ textarea.formControl {
 
 .contactCard {
     display: grid;
-    grid-template-columns: 164px 1fr;
+    grid-template-columns: 124px 1fr;
     gap: var(--spacing-lg);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -212,6 +212,9 @@ textarea.formControl {
 }
 
 .contactAvatar {
+    margin-top: 15px;
+    padding: 0;
+    height: 124px;
     border-radius: 999px;
     display: flex;
     align-items: center;
@@ -672,6 +675,8 @@ textarea.formControl {
 }
 
 .latestAvatar {
+    margin-top: 40px;
+    margin-left: 7px;
     width: 58px;
     height: 58px;
     border-radius: 999px;
