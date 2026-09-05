@@ -33,14 +33,29 @@ export function EditContact() {
     }, [id])
 
     if(isLoading) {
-        return <p>Loading contact...</p>
+        return (
+            <main className="page">
+                <p className="stateMessage">Loading contact...</p>
+            </main>
+        )
     }
     if(errorMessage) {
-        return <p>Error: {errorMessage}</p>
+        return (
+            <main className="page">
+                <section className="errorState">
+                    <h2>Error</h2>
+                    <p>Error: {errorMessage}</p>
+                </section>
+            </main>
+        )
     }
 
     if(!contact) {
-        return <p>Contact not found</p>
+        return (
+            <main className="page">
+                <p className="emptyState">Contact not found</p>
+            </main>
+        )
     }
 
     async function handleUpdateContact(contactData) {
@@ -60,17 +75,24 @@ export function EditContact() {
     }
 
     return (
-        <main>
-            <h1>Edit Contact</h1>
-            <p>Edit contact information</p>
-
-            <h2>{contact.name}</h2>
-            <ContactForm 
-                initialValues={contact} 
-                onSubmit={handleUpdateContact} 
-                submitLabel="Update contact"
-                isSubmitting={isSubmitting}
-            />
+        <main className="page">
+            <section className="pageHeader">
+                <h1>Edit Contact</h1>
+                <p>Edit contact information</p>
+            </section>
+            
+            <section className="card">
+                <div className="formHeader">
+                    <h2>{contact.name}</h2>
+                    <p>Update contact information</p>
+                </div>
+                <ContactForm 
+                    initialValues={contact} 
+                    onSubmit={handleUpdateContact} 
+                    submitLabel="Update contact"
+                    isSubmitting={isSubmitting}
+                />
+            </section>
         </main>
     )
 }
