@@ -1,39 +1,21 @@
-/*
-openapi
-→ versão da especificação OpenAPI
-
-info
-→ informações da sua API
-
-servers
-→ onde sua API roda
-
-paths
-→ endpoints documentados
-
-components
-→ schemas reutilizáveis
-
- */
-
 const openApiDocument = {
     openapi: "3.0.0",
     info: {
         title: "ContactFlow API",
-        version: "1.0.0",
-        description: "API para gerenciamento de contatos, interaçções e dashboard do ContactFlow."
+        version: "1.0.1",
+        description: "API for managing contacts, interactions, and dashboard data in ContactFlow."
     },
     servers: [
         {
             url: "http://localhost:3000",
-            description: "Servidor local"
+            description: "Local server"
         }
     ],
     paths: {
         "/api/contacts": {
             get: {
-                summary: "Listar contatos",
-                description: "Retorna a lista de contatos cadastrados, com suporte a busca e filtros por status e origem.",
+                summary: "List contacts",
+                description: "Returns the list of registered contacts, with support for search and filters by status and source.",
                 parameters: [
                     {
                         name: "search",
@@ -42,14 +24,14 @@ const openApiDocument = {
                         description: "Searches contacts by name, email, or company.",
                         schema: {
                             type: "string",
-                            example: "marcos"
+                            example: "ana"
                         }
                     },
                     {
                         name: "status",
                         in: "query",
                         required: false,
-                        description: "Filters contacts by status",
+                        description: "Filters contacts by status.",
                         schema: {
                             type: "string",
                             enum: ["new", "in_contact", "client", "partner", "archived"],
@@ -60,18 +42,17 @@ const openApiDocument = {
                         name: "source",
                         in: "query",
                         required: false,
-                        description: "Filter contacts by source",
+                        description: "Filters contacts by source.",
                         schema: {
                             type: "string",
                             enum: ["linkedin", "whatsapp", "instagram", "referral", "event", "website", "other"],
                             example: "linkedin"
                         }
                     }
-
                 ],
                 responses: {
                     200: {
-                        description: "Lista de contatos retornada com sucesso",
+                        description: "Contacts returned successfully",
                         content: {
                             "application/json": {
                                 schema: {
@@ -84,7 +65,7 @@ const openApiDocument = {
                         }
                     },
                     500: {
-                        description: "Erro interno do servidor",
+                        description: "Internal server error",
                         content: {
                             "application/json": {
                                 schema: {
@@ -114,7 +95,7 @@ const openApiDocument = {
                         description: "Contact created successfully",
                         content: {
                             "application/json": {
-                                schema: { 
+                                schema: {
                                     $ref: "#/components/schemas/Contact"
                                 }
                             }
@@ -130,7 +111,6 @@ const openApiDocument = {
                             }
                         }
                     },
-
                     500: {
                         description: "Internal server error",
                         content: {
@@ -147,8 +127,8 @@ const openApiDocument = {
 
         "/api/contacts/{id}": {
             get: {
-                summary: "Select specific contact",
-                description: "Return a specific contact using unique Id",
+                summary: "Get contact by ID",
+                description: "Returns a specific contact by ID.",
                 parameters: [
                     {
                         name: "id",
@@ -172,7 +152,6 @@ const openApiDocument = {
                             }
                         }
                     },
-
                     404: {
                         description: "Contact not found",
                         content: {
@@ -183,7 +162,6 @@ const openApiDocument = {
                             }
                         }
                     },
-
                     500: {
                         description: "Internal server error",
                         content: {
@@ -196,6 +174,7 @@ const openApiDocument = {
                     }
                 }
             },
+
             patch: {
                 summary: "Update contact",
                 description: "Updates an existing contact by ID.",
@@ -264,6 +243,7 @@ const openApiDocument = {
                     }
                 }
             },
+
             delete: {
                 summary: "Delete contact",
                 description: "Deletes an existing contact by ID.",
@@ -313,6 +293,7 @@ const openApiDocument = {
                 }
             }
         },
+
         "/api/contacts/{id}/interactions": {
             get: {
                 summary: "List contact interactions",
@@ -355,157 +336,158 @@ const openApiDocument = {
                     }
                 }
             },
-                post: {
-                    summary: "Create contact interaction",
-                    description: "Creates a new interaction for a specific contact.",
-                    parameters: [
-                        {
-                            name: "id",
-                            in: "path",
-                            required: true,
-                            description: "Contact ID.",
-                            schema: {
-                                type: "integer",
-                                example: 8
-                            }
-                        }
-                    ],
-                    requestBody: {
+
+            post: {
+                summary: "Create contact interaction",
+                description: "Creates a new interaction for a specific contact.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
                         required: true,
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    $ref: "#/components/schemas/CreateInteractionRequest"
-                                }
-                            }
-                        }
-                    },
-                    responses: {
-                        201: {
-                            description: "Contact interaction created successfully",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/ContactInteraction"
-                                    }
-                                }
-                            }
-                        },
-                        400: {
-                            description: "Invalid request data",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/ErrorResponse"
-                                    }
-                                }
-                            }
-                        },
-                        500: {
-                            description: "Internal server error",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/ErrorResponse"
-                                    }
-                                }
-                            }
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
                         }
                     }
-                }
-            },
-            
-            "/api/contacts/{id}/interactions/{interactionId}": {
-                    delete: {
-                        summary: "Delete Interaction",
-                        description: "Deletes a specific interaction from a contact",
-                        parameters: [
-                            {
-                                name: "id",
-                                in: "path",
-                                required: true,
-                                description: "Contact ID.",
-                                schema: {
-                                    type: "integer",
-                                    example: 8
-                                }
-                            },
-                            {
-                                name: "interactionId",
-                                in: "path",
-                                required: true,
-                                description: "Interaction ID.",
-                                schema: {
-                                    type: "integer",
-                                    example: 21
-                                }
-                            }
-                        ],
-                        responses: {
-                            200: {
-                                description: "Interaction deleted successfully",
-                                content: {
-                                    "application/json": {
-                                        schema: {
-                                            $ref: "#/components/schemas/DeleteResponse"
-                                        }
-                                    }
-                                }
-                            },
-                            404: {
-                                description: "Interaction not found",
-                                content: {
-                                    "application/json": {
-                                        schema: {
-                                            $ref: "#/components/schemas/ErrorResponse"
-                                        }
-                                    }
-                                }
-                            },
-                            500: {
-                                description: "Internal server error",
-                                content: {
-                                    "application/json": {
-                                        schema: {
-                                            $ref: "#/components/schemas/ErrorResponse"
-                                        }
-                                    }
-                                }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                $ref: "#/components/schemas/CreateInteractionRequest"
                             }
                         }
                     }
                 },
-    
-            "/api/dashboard": {
-                get: {
-                    summary: "Get dashboard data",
-                    description: "Return dashboard metrics includind total contacts, contacts by status, contacts by source, total interactions, latest contacts and latest interactions.",
-                    responses: {
-                        200: {
-                            description: "Dashboard data returned succesfully",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/DashboardResponse"
-                                    }
+                responses: {
+                    201: {
+                        description: "Contact interaction created successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ContactInteraction"
                                 }
                             }
-                        },
-                        500: {
-                            description: "Internal server error",
-                            content: {
-                                "application/json": {
-                                    schema: {
-                                        $ref: "#/components/schemas/ErrorResponse"
-                                    }
+                        }
+                    },
+                    400: {
+                        description: "Invalid request data",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
                     }
                 }
-            },
+            }
         },
-        
+
+        "/api/contacts/{id}/interactions/{interactionId}": {
+            delete: {
+                summary: "Delete contact interaction",
+                description: "Deletes a specific interaction from a contact.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Contact ID.",
+                        schema: {
+                            type: "integer",
+                            example: 8
+                        }
+                    },
+                    {
+                        name: "interactionId",
+                        in: "path",
+                        required: true,
+                        description: "Interaction ID.",
+                        schema: {
+                            type: "integer",
+                            example: 21
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Interaction deleted successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/DeleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    404: {
+                        description: "Interaction not found",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/api/dashboard": {
+            get: {
+                summary: "Get dashboard data",
+                description: "Returns dashboard metrics including total contacts, contacts by status, contacts by source, total interactions, latest contacts, and latest interactions.",
+                responses: {
+                    200: {
+                        description: "Dashboard data returned successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/DashboardResponse"
+                                }
+                            }
+                        }
+                    },
+                    500: {
+                        description: "Internal server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+
     components: {
         schemas: {
             ContactStatus: {
@@ -529,27 +511,27 @@ const openApiDocument = {
                     },
                     name: {
                         type: "string",
-                        example: "Marcos Vinicius"
+                        example: "Ana Souza"
                     },
                     email: {
                         type: "string",
                         nullable: true,
-                        example: "marcos@email.com"
+                        example: "ana.souza@example.com"
                     },
                     phone: {
                         type: "string",
                         nullable: true,
-                        example: "11999999999"
+                        example: "(11) 90000-1001"
                     },
                     company: {
                         type: "string",
                         nullable: true,
-                        example: "ContactFlow"
+                        example: "NovaPay"
                     },
                     role: {
                         type: "string",
                         nullable: true,
-                        example: "Developer"
+                        example: "HR Analyst"
                     },
                     source: {
                         $ref: "#/components/schemas/ContactSource"
@@ -560,17 +542,17 @@ const openApiDocument = {
                     notes: {
                         type: "string",
                         nullable: true,
-                        example: "Potential client from LinkedIn."
+                        example: "Interested in a dashboard solution for candidate tracking."
                     },
                     created_at: {
                         type: "string",
                         format: "date-time",
-                        example: "2026-07-18T21:39:14.065Z"
+                        example: "2026-09-05T00:19:00.000Z"
                     },
                     updated_at: {
                         type: "string",
                         format: "date-time",
-                        example: "2026-07-18T21:39:14.065Z"
+                        example: "2026-09-05T01:19:00.000Z"
                     }
                 }
             },
@@ -591,27 +573,27 @@ const openApiDocument = {
                 properties: {
                     name: {
                         type: "string",
-                        example: "Marcos Vinicius"
+                        example: "Ana Souza"
                     },
                     email: {
                         type: "string",
                         nullable: true,
-                        example: "marcos@email.com"
+                        example: "ana.souza@example.com"
                     },
                     phone: {
                         type: "string",
                         nullable: true,
-                        example: "11999999999"
+                        example: "(11) 90000-1001"
                     },
                     company: {
                         type: "string",
                         nullable: true,
-                        example: "ContactFlow"
+                        example: "NovaPay"
                     },
                     role: {
                         type: "string",
                         nullable: true,
-                        example: "Developer"
+                        example: "HR Analyst"
                     },
                     source: {
                         $ref: "#/components/schemas/ContactSource"
@@ -622,9 +604,8 @@ const openApiDocument = {
                     notes: {
                         type: "string",
                         nullable: true,
-                        example: "Potential client from LinkedIn."
+                        example: "Interested in a dashboard solution for candidate tracking."
                     }
-
                 }
             },
 
@@ -633,27 +614,27 @@ const openApiDocument = {
                 properties: {
                     name: {
                         type: "string",
-                        example: "Marcos Vinicius Updated"
+                        example: "Ana Souza Updated"
                     },
                     email: {
                         type: "string",
                         nullable: true,
-                        example: "updated@email.com"
+                        example: "ana.updated@example.com"
                     },
                     phone: {
                         type: "string",
                         nullable: true,
-                        example: "11988888888",
+                        example: "(11) 90000-2001"
                     },
                     company: {
                         type: "string",
                         nullable: true,
-                        example: "Updated Company"
+                        example: "NovaPay"
                     },
                     role: {
                         type: "string",
                         nullable: true,
-                        example: "Full Stack Developer"
+                        example: "People Operations Manager"
                     },
                     source: {
                         $ref: "#/components/schemas/ContactSource"
@@ -664,7 +645,7 @@ const openApiDocument = {
                     notes: {
                         type: "string",
                         nullable: true,
-                        example: "Updated notes."
+                        example: "Updated contact notes."
                     }
                 }
             },
@@ -674,7 +655,7 @@ const openApiDocument = {
                 properties: {
                     message: {
                         type: "string",
-                        example: "Contact deleted succesfully"
+                        example: "Resource deleted successfully"
                     }
                 }
             },
@@ -697,7 +678,7 @@ const openApiDocument = {
                     created_at: {
                         type: "string",
                         format: "date-time",
-                        example: "2026-07-18T21:39:14.065Z"
+                        example: "2026-09-05T01:23:00.000Z"
                     }
                 }
             },
@@ -715,13 +696,13 @@ const openApiDocument = {
 
             DashboardStatusItem: {
                 type: "object",
-                properties: { 
+                properties: {
                     status: {
                         $ref: "#/components/schemas/ContactStatus"
                     },
                     total: {
                         type: "integer",
-                        example: 3
+                        example: 4
                     }
                 }
             },
@@ -734,9 +715,9 @@ const openApiDocument = {
                     },
                     total: {
                         type: "integer",
-                        example: 2
+                        example: 3
                     }
-                },
+                }
             },
 
             LatestInteraction: {
@@ -752,7 +733,7 @@ const openApiDocument = {
                     },
                     contact_name: {
                         type: "string",
-                        example: "Marcos Vinicius"
+                        example: "Ana Souza"
                     },
                     content: {
                         type: "string",
@@ -761,7 +742,7 @@ const openApiDocument = {
                     created_at: {
                         type: "string",
                         format: "date-time",
-                        example: "2026-07-18T21:39:14.065Z"
+                        example: "2026-09-05T01:23:00.000Z"
                     }
                 }
             },
@@ -771,7 +752,7 @@ const openApiDocument = {
                 properties: {
                     totalContacts: {
                         type: "integer",
-                        example: 10
+                        example: 17
                     },
                     contactByStatus: {
                         type: "array",
@@ -801,7 +782,6 @@ const openApiDocument = {
                             $ref: "#/components/schemas/LatestInteraction"
                         }
                     }
-                    
                 }
             }
         }
