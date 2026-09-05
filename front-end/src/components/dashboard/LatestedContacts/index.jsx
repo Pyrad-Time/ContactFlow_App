@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { formatSource, formatStatus } from "../../../utils/formatters"
 
 function formatDate(dateValue) {
     if(!dateValue) {
@@ -41,10 +42,10 @@ export function LatestContacts({title, value}) {
 
                                 <div className="latestContactMeta">
                                     <p className="badge">
-                                        Status: {contact.status}
+                                        Status: {formatStatus(contact.status)}
                                     </p>
                                     <p className="badge badgeSecondary">
-                                        Source: {contact.source}
+                                        Source: {formatSource(contact.source)}
                                     </p>
                                 </div>
 

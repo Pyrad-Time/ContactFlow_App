@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { formatSource, formatStatus } from "../../../utils/formatters" 
 
 export function ContactCard({contact}) {
     const contactInitial = contact.name?.charAt(0).toUpperCase() || "?"
@@ -11,24 +12,24 @@ export function ContactCard({contact}) {
 
             <div className="contactCardInfo">
                 <h2 className="contactCardTitle">
-                    Name: {contact.name}
+                    {contact.name}
                 </h2>
 
                 <p className="contactCardText">
-                    E-mail: {contact.email || "Não informado"}
+                    E-mail: {contact.email || "Not specified."}
                 </p>
 
                 <p className="contactCardText">
-                    Company: {contact.company || "Não informado"}
+                    Company: {contact.company || "Not specified."}
                 </p>
 
                 <div className="contactCardMeta">
                     <span className="badge">
-                        Status: {contact.status}
+                        Status: {formatStatus(contact.status)}
                     </span>
 
                     <span className="badge badgeSecondary">
-                        Source: {contact.source}
+                        Source: {formatSource(contact.source)}
                     </span>
                 </div>
 

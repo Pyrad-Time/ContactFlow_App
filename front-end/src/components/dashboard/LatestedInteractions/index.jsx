@@ -35,7 +35,7 @@ export function LatestInteractions({ title, value = []}) {
                                         Created at: {formatDate(interaction.created_at)}
                                     </small>
                                 </div>
-                                    <p>Interaction: {interaction.content}</p>                       
+                                    <p>{interaction.content}</p>                       
                             </Link>
                         )
             })}
